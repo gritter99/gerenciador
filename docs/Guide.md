@@ -43,12 +43,13 @@ Ter autenticação funcionando end-to-end (cadastro + login com JWT).
 - Acessar https://code.quarkus.io
 - Preencher: Group `com.gerenciador`, Artifact `gerenciador-backend`, Build tool `Maven`, Java `21`
 - Selecionar extensões essenciais:
-  - RESTEasy Reactive
-  - Hibernate ORM with Panache
-  - JDBC Driver - H2 (para desenvolvimento)
-  - SmallRye JWT
-  - SmallRye JWT Build
-  - Bean Validation
+  REST
+  REST Jackson
+  Hibernate ORM with Panache
+  JDBC Driver - PostgreSQL
+  SmallRye JWT
+  SmallRye JWT Build
+  Hibernate Validator
 - Baixar ZIP e extrair na pasta `backend/`
 
 #### 2. Configurar application.properties
@@ -468,16 +469,6 @@ git push origin feature/nome-da-feature
 - Tratar erros da API adequadamente
 - Não expor tokens em logs ou console
 - Implementar feedback visual para todas as ações
-
----
-
-## Contatos e Suporte
-
-- **Backend:** [nome/email]
-- **Frontend:** [nome/email]
-- **Segurança:** [nome/email]
-
-**Canal de comunicação:** [Slack/Discord/Teams]
 
 ---
 
