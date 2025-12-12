@@ -11,6 +11,10 @@ import java.util.UUID;
 @ApplicationScoped
 public class UsuarioRepository implements PanacheRepositoryBase<Usuario, UUID> {
 
+    public Usuario findById(UUID id) {
+        return find("id", id).firstResult();
+    }
+
     public Optional<Usuario> findByEmail(String email) {
         return find("email", email).firstResultOptional();
     }
