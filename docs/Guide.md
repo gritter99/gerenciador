@@ -56,12 +56,10 @@ Ter autenticação funcionando end-to-end (cadastro + login com JWT).
 
 **Direcionamento:**
 - Criar/editar `backend/src/main/resources/application.properties`
-- Configurar banco H2 para desenvolvimento (em memória)
 - Configurar JWT (chaves serão geradas por Segurança)
 - Configurar CORS para permitir `http://localhost:4200` (frontend)
 
 **Configurações necessárias:**
-- Database: H2 em memória, `drop-and-create` para desenvolvimento
 - JWT: paths para chaves pública/privada (serão criadas por Segurança)
 - CORS: habilitado para desenvolvimento local
 
