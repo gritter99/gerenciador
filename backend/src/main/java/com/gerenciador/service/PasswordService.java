@@ -7,7 +7,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 @ApplicationScoped
 public class PasswordService {
     public String hash(String senha) {
-        return BCrypt.hashpw(senha, BCrypt.gensalt());
+        return BCrypt.hashpw(senha, BCrypt.gensalt(12));
     }
 
     public boolean verify(String senha, String hash) {
