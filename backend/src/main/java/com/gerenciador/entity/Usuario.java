@@ -3,6 +3,8 @@ package com.gerenciador.entity;
 import java.util.UUID;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -29,6 +31,7 @@ public class Usuario extends PanacheEntityBase {
     @Column(nullable = false, unique = true)
     private String email;
 
+    @JsonIgnore
     @NotBlank(message = "A senha é obrigatória")
     @Column(name = "senha_hash", nullable = false)
     private String senhaHash;
