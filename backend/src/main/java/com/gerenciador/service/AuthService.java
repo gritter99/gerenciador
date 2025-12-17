@@ -1,7 +1,7 @@
 package com.gerenciador.service;
 
+import com.gerenciador.dto.AuthResponse;
 import com.gerenciador.dto.LoginRequest;
-import com.gerenciador.dto.LoginResponse;
 import com.gerenciador.entity.Usuario;
 import com.gerenciador.exception.CustomException;
 import com.gerenciador.security.jwt.GenerateToken;
@@ -15,9 +15,7 @@ public class AuthService {
     @Inject
     PasswordService passwordService;
 
-    private static Integer JWT_EXPIRATION_TIME = 720;
-
-    public LoginResponse generateToken(LoginRequest loginRequest) {
+    public AuthResponse authenticate(LoginRequest loginRequest) {
         var user = (Usuario) Usuario.find("email", loginRequest.getEmail())
                 .firstResultOptional()
                 .orElseThrow(() -> new CustomException("Falha na autenticação, email ou senha incorretos"));
@@ -26,7 +24,11 @@ public class AuthService {
             throw new CustomException("Falha na autenticação, email ou senha incorretos");
         }
 
-        var jwt = GenerateToken.generateToken(loginRequest.getEmail(), user.getId());
-        return new LoginResponse(jwt, JWT_EXPIRATION_TIME);
+        var token = GenerateToken.generateToken(user.getEmail(), user.getId());
+        var usuarioResponse = new AuthResponse.UsuarioResponse(
+                user.getId(),
+                user.getNome(),
+                user.getEmail());
+        return new AuthResponse(token, usuarioResponse);
     }
 }

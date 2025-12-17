@@ -24,7 +24,7 @@ public class UsuarioService {
     }
 
     @Transactional
-    public void saveUsuario(RegisterRequest usuarioRequest) {
+    public Usuario saveUsuario(RegisterRequest usuarioRequest) {
 
         var isInvalidEmail = usuarioRepository.find("email", usuarioRequest.getEmail()).count() > 0;
         if (isInvalidEmail) {
@@ -35,5 +35,6 @@ public class UsuarioService {
         usuario.setEmail(usuarioRequest.getEmail());
         usuario.setSenhaHash(passwordService.hash(usuarioRequest.getSenha()));
         usuarioRepository.persist(usuario);
+        return usuario;
     }
 }

@@ -1,8 +1,9 @@
 package com.gerenciador.resource;
 
+import com.gerenciador.dto.AuthResponse;
 import com.gerenciador.dto.LoginRequest;
-import com.gerenciador.dto.LoginResponse;
 import com.gerenciador.dto.RegisterRequest;
+import com.gerenciador.security.jwt.GenerateToken;
 import com.gerenciador.service.AuthService;
 import com.gerenciador.service.UsuarioService;
 
@@ -14,7 +15,6 @@ import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.Response;
 
 @Path("/auth")
 @Produces(MediaType.APPLICATION_JSON)
@@ -30,15 +30,20 @@ public class AuthResource {
     @POST
     @Path("/register")
     @PermitAll
-    public Response register(@Valid RegisterRequest request) {
-        usuarioService.saveUsuario(request);
-        return Response.status(Response.Status.CREATED).build();
+    public AuthResponse register(@Valid RegisterRequest request) {
+        var usuario = usuarioService.saveUsuario(request);
+        var token = GenerateToken.generateToken(usuario.getEmail(), usuario.getId());
+        var usuarioResponse = new AuthResponse.UsuarioResponse(
+                usuario.getId(),
+                usuario.getNome(),
+                usuario.getEmail());
+        return new AuthResponse(token, usuarioResponse);
     }
 
     @POST
     @Path("/login")
     @PermitAll
-    public LoginResponse login(@Valid LoginRequest request) {
-        return authService.generateToken(request);
+    public AuthResponse login(@Valid LoginRequest request) {
+        return authService.authenticate(request);
     }
 }

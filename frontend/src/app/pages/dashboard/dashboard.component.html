@@ -1,0 +1,100 @@
+<div class="p-6">
+  <h1 class="text-2xl font-bold text-gray-800 mb-6">Dashboard</h1>
+
+  @if (loading()) {
+  <div class="flex justify-center items-center h-64">
+    <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+  </div>
+  } @else if (error()) {
+  <div class="p-4 bg-red-100 border border-red-400 text-red-700 rounded mb-4">
+    {{ error() }}
+    <button (click)="loadDashboard()" class="ml-4 underline hover:no-underline">
+      Tentar novamente
+    </button>
+  </div>
+  } @else if (dashboardData()) {
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+    <!-- Card Receitas -->
+    <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-green-500">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm font-medium text-gray-500 uppercase">Total Receitas</p>
+          <p class="text-2xl font-bold text-green-600">
+            {{ dashboardData()!.totalReceitas | currency:'BRL':'symbol':'1.2-2' }}
+          </p>
+        </div>
+        <div class="p-3 bg-green-100 rounded-full">
+          <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card Despesas -->
+    <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-red-500">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm font-medium text-gray-500 uppercase">Total Despesas</p>
+          <p class="text-2xl font-bold text-red-600">
+            {{ dashboardData()!.totalDespesas | currency:'BRL':'symbol':'1.2-2' }}
+          </p>
+        </div>
+        <div class="p-3 bg-red-100 rounded-full">
+          <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card Saldo -->
+    <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-blue-500">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm font-medium text-gray-500 uppercase">Saldo</p>
+          <p class="text-2xl font-bold" [class]="dashboardData()!.saldo >= 0 ? 'text-blue-600' : 'text-red-600'">
+            {{ dashboardData()!.saldo | currency:'BRL':'symbol':'1.2-2' }}
+          </p>
+        </div>
+        <div class="p-3 bg-blue-100 rounded-full">
+          <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
+            </path>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ações Rápidas -->
+  <div class="bg-white rounded-lg shadow-md p-6">
+    <h2 class="text-lg font-semibold text-gray-800 mb-4">Ações Rápidas</h2>
+    <div class="flex flex-wrap gap-4">
+      <a routerLink="/transacoes" [queryParams]="{action: 'nova', tipo: 'RECEITA'}"
+        class="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors">
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+        </svg>
+        Nova Receita
+      </a>
+      <a routerLink="/transacoes" [queryParams]="{action: 'nova', tipo: 'DESPESA'}"
+        class="inline-flex items-center px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors">
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path>
+        </svg>
+        Nova Despesa
+      </a>
+      <a routerLink="/transacoes"
+        class="inline-flex items-center px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 transition-colors">
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16">
+          </path>
+        </svg>
+        Ver Transações
+      </a>
+    </div>
+  </div>
+  }
+</div>
